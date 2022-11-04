@@ -6,4 +6,6 @@
     <string name="error_empty_enter_point_amount">Enter correct value</string>
     <string name="lbl_title_error">Error</string>
     <string name="lbl_close">Close</string>
+    <string name="lbl_x">X</string>
+    <string name="lbl_y">Y</string>
 </resources>

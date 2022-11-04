@@ -39,6 +39,7 @@ class ChartActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.listCoordinatesFlow.filterNotNull().onEach {
             showCoordinates(it)
+            showChart(it)
         }.launchIn(lifecycleScope)
     }
 
@@ -47,6 +48,10 @@ class ChartActivity : AppCompatActivity() {
             binding.listCoordinates.adapter = PointGridAdapter()
         }
         (binding.listCoordinates.adapter as? PointGridAdapter)?.bindSubList(list)
+    }
+
+    private fun showChart(list: List<Point>) {
+        binding.chartView.setPoints(list)
     }
 
     private fun listen() {
