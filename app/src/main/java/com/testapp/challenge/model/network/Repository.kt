@@ -3,6 +3,7 @@ package com.testapp.challenge.model.network
 import com.testapp.challenge.App
 import com.testapp.challenge.model.db.entity.PointResponseLocalEntity
 import com.testapp.challenge.model.db.entity.PointResponseLocalEntity.Companion.ID
+import com.testapp.challenge.model.network.dto.Point
 import com.testapp.challenge.model.network.dto.PointResponse
 import com.testapp.challenge.model.network.response.PointCallResponse
 import com.testapp.challenge.model.network.service.PointService
@@ -21,6 +22,14 @@ class Repository(private val pointService: PointService) {
         }
 
         throw Exception(UNKNOWN_ERROR)
+    }
+
+    suspend fun getDataFromLocalDb(id: Int): List<Point> {
+        return App.appInstance.db?.pointsDao()?.getPoints(id)?.points ?: listOf()
+    }
+
+    suspend fun clearDb() {
+        App.appInstance.db?.pointsDao()?.delete()
     }
 
     private suspend fun saveDataToLocalDb(pointResponse: PointResponse): Int {

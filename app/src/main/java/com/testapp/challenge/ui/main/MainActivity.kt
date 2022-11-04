@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainActivityViewModel by viewModels {
-        appComponent().viewModelsFactory()
+        appComponent().mainViewModelsFactory()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

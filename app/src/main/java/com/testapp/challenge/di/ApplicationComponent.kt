@@ -1,7 +1,8 @@
 package com.testapp.challenge.di
 
+import com.testapp.challenge.ui.chart.ChartViewModelFactory
 import com.testapp.challenge.ui.main.MainActivityViewModel
-import com.testapp.challenge.ui.main.ViewModelFactory
+import com.testapp.challenge.ui.main.MainViewModelFactory
 import dagger.Component
 import javax.inject.Singleton
 
@@ -12,7 +13,11 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
 
-    fun mainViewModel(): MainActivityViewModel
+    // factories
+    fun mainViewModelsFactory(): MainViewModelFactory
 
-    fun viewModelsFactory(): ViewModelFactory
+    fun chartViewModelsFactory(): ChartViewModelFactory
+
+    // viewModels
+    fun mainViewModel(): MainActivityViewModel
 }

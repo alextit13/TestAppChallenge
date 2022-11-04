@@ -1,4 +1,4 @@
-package com.testapp.challenge.ui.main
+package com.testapp.challenge.ui.chart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -8,12 +8,12 @@ import javax.inject.Provider
 /**
  * @author aliakseicherniakovich
  */
-class ViewModelFactory @Inject constructor(
-    provider: Provider<MainActivityViewModel>
+class ChartViewModelFactory @Inject constructor(
+    provider: Provider<ChartViewModel>
 ) : ViewModelProvider.Factory {
 
     private val providers = mapOf<Class<*>, Provider<out ViewModel>>(
-        MainActivityViewModel::class.java to provider
+        ChartViewModel::class.java to provider
     )
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
