@@ -5,13 +5,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.testapp.challenge.databinding.ActivityMainBinding
+import com.testapp.challenge.ui.ext.appComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: MainActivityViewModel by viewModels {
+        appComponent().viewModelsFactory()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

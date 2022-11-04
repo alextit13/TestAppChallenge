@@ -41,6 +41,13 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    // fix temporary bug with ViewModelFactory https://issuetracker.google.com/issues/217593040
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
+    }
 }
 
 dependencies {
@@ -61,4 +68,9 @@ dependencies {
     implementation('androidx.room:room-runtime:2.4.3')
     annotationProcessor('androidx.room:room-compiler:2.4.3')
     kapt('androidx.room:room-compiler:2.4.3')
+    implementation("androidx.room:room-ktx:2.4.3")
+
+    // dagger
+    implementation 'com.google.dagger:dagger:2.44'
+    kapt 'com.google.dagger:dagger-compiler:2.44'
 }

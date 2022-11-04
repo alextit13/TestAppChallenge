@@ -11,11 +11,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * @author aliakseicherniakovich
  */
-class MainActivityViewModel : ViewModel() {
+class MainActivityViewModel @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
 
     private val _errorEnterAmountFlow = MutableStateFlow(InputFieldError.error())
     val errorEnterAmountFlow = _errorEnterAmountFlow.asStateFlow()
@@ -28,8 +31,6 @@ class MainActivityViewModel : ViewModel() {
 
     private val _openNextScreenEvent = Channel<Int>(Channel.BUFFERED)
     val openNextScreenFlow = _openNextScreenEvent.receiveAsFlow()
-
-    private val repository = Repository()
 
     fun onClickRun(enterText: String) {
         if (enterText.isBlank() || !enterText.isDigitsOnly()) {
