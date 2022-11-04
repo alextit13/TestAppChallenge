@@ -1,10 +1,10 @@
 package com.testapp.challenge.ui.main
 
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.response.PointCallResponse
+import com.testapp.challenge.ui.ext.isInt
 import com.testapp.challenge.util.InputFieldError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +33,7 @@ class MainActivityViewModel @Inject constructor(
     val openNextScreenFlow = _openNextScreenEvent.receiveAsFlow()
 
     fun onClickRun(enterText: String) {
-        if (enterText.isBlank() || !enterText.isDigitsOnly()) {
+        if (enterText.isBlank() || !enterText.isInt()) {
             _errorEnterAmountFlow.value = InputFieldError.error(true)
             return
         } else {
