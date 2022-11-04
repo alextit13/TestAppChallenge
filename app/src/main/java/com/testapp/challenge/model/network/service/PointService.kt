@@ -1,7 +1,6 @@
 package com.testapp.challenge.model.network.service
 
 import com.testapp.challenge.model.network.dto.PointResponse
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,5 +10,5 @@ import retrofit2.http.Query
 interface PointService {
 
     @GET("/api/test/points")
-    fun getPoints(@Query("count") count: Int): Call<PointResponse>
+    suspend fun getPoints(@Query("count") count: Int): Result<PointResponse>
 }
