@@ -4,4 +4,6 @@
     <string name="lbl_run">Run</string>
     <string name="lbl_count_points">Enter count of points in field below</string>
     <string name="error_empty_enter_point_amount">Enter correct value</string>
+    <string name="lbl_title_error">Error</string>
+    <string name="lbl_close">Close</string>
 </resources>

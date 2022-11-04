@@ -5,6 +5,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.testapp.challenge.databinding.ActivityMainBinding
+import com.testapp.challenge.ui.chart.ChartActivity
+import com.testapp.challenge.ui.dialog.ErrorDialog
+import com.testapp.challenge.ui.dialog.ErrorDialog.Companion.DIALOG_TAG
 import com.testapp.challenge.ui.ext.appComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,10 +38,11 @@ class MainActivity : AppCompatActivity() {
         }.launchIn(lifecycleScope)
         viewModel.stateButtonFlow.onEach { binding.btnRun.isEnabled = it }.launchIn(lifecycleScope)
         viewModel.errorResponseFlow.onEach {
-            // todo show error dialog
+            ErrorDialog.getInstance(it).show(supportFragmentManager, DIALOG_TAG)
         }.launchIn(lifecycleScope)
         viewModel.openNextScreenFlow.onEach {
-            // todo open next screen
+            val chartIntent = ChartActivity.getInstance(this, it)
+            startActivity(chartIntent)
         }.launchIn(lifecycleScope)
     }
 
