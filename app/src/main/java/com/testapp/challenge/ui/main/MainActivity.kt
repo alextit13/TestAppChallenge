@@ -1,10 +1,9 @@
-package com.testapp.challenge.main
+package com.testapp.challenge.ui.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.testapp.challenge.R
 import com.testapp.challenge.databinding.ActivityMainBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,12 +23,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observe() {
-        viewModel.errorFlow.onEach {
+        viewModel.errorEnterAmountFlow.onEach {
             binding.etPointCount.error = if (it.isError) {
                 getString(it.errorMessageResId)
             } else {
                 null
             }
+        }.launchIn(lifecycleScope)
+        viewModel.stateButtonFlow.onEach { binding.btnRun.isEnabled = it }.launchIn(lifecycleScope)
+        viewModel.errorResponseFlow.onEach {
+            // todo show error dialog
+        }.launchIn(lifecycleScope)
+        viewModel.openNextScreenFlow.onEach {
+            // todo open next screen
         }.launchIn(lifecycleScope)
     }
 

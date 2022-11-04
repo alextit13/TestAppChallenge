@@ -3,5 +3,5 @@
     <string name="hint_point_count">Point count</string>
     <string name="lbl_run">Run</string>
     <string name="lbl_count_points">Enter count of points in field below</string>
-    <string name="error_empty_enter_point_amount">Enter value</string>
+    <string name="error_empty_enter_point_amount">Enter correct value</string>
 </resources>

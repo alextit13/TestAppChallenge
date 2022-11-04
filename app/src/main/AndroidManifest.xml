@@ -14,7 +14,7 @@
         android:theme="@style/Theme.TestAppChallenge"
         tools:targetApi="31">
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.testapp.challenge.ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
