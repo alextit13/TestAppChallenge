@@ -5,5 +5,9 @@ package com.testapp.challenge.view.chart
  */
 enum class ChartViewMode {
     Linear,
-    Bezier
+    Bezier;
+
+    companion object {
+        val defaultMode = ChartViewMode.Linear
+    }
 }

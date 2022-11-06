@@ -3,27 +3,37 @@ package com.testapp.challenge.view.axes
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import com.testapp.challenge.model.network.dto.Point
+import com.testapp.challenge.view.SortedPointList
 
 /**
  * @author aliakseicherniakovich
  */
-open class InflatingCallbackView @JvmOverloads constructor(
+abstract class InflatingCallbackView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
+    protected var data: SortedPointList = SortedPointList()
+        private set
 
     protected var realCanvasWidth: Int = VIEW_NON_INFLATE_SIZE
     protected var realCanvasHeight: Int = VIEW_NON_INFLATE_SIZE
 
     private var isViewInflating = false
-    private var onViewInflated: (() -> Unit)? = null
 
-    fun waitInflating(block: () -> Unit) {
+    open fun setPointsData(data: List<Point>) {
+        this.data = SortedPointList().apply { this.points = data }
+        waitInflating()
+    }
+
+    private fun waitInflating() {
         if (isViewInflating) {
-            block()
+            onViewInflated()
             return
         }
-        onViewInflated = block
     }
+
+    abstract fun onViewInflated()
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -32,11 +42,13 @@ open class InflatingCallbackView @JvmOverloads constructor(
         realCanvasHeight = height
 
         isViewInflating = true
-        onViewInflated?.invoke()
+        if (data.points.isNotEmpty()) {
+            onViewInflated()
+        }
     }
 
     override fun onDetachedFromWindow() {
-        onViewInflated = null
+        isViewInflating = false
         super.onDetachedFromWindow()
     }
 

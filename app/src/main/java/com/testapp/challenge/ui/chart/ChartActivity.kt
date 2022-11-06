@@ -51,7 +51,7 @@ class ChartActivity : AppCompatActivity() {
     }
 
     private fun showChart(list: List<Point>) {
-        binding.chartView.setPoints(list)
+        binding.chartView.setPointsData(list)
     }
 
     private fun listen() {

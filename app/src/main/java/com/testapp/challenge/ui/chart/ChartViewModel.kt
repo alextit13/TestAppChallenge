@@ -30,7 +30,7 @@ class ChartViewModel @Inject constructor(
     }
 
     private suspend fun loadPoints() {
-        val points = repository.getDataFromLocalDb(id)
+        val points = repository.getDataFromLocalDb(id).sortedBy { it.x }
         _listCoordinatesFlow.value = null
         _listCoordinatesFlow.value = points
         repository.clearDb()
