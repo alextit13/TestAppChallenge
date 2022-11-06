@@ -1,6 +1,7 @@
 package com.testapp.challenge.view.chart
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -18,6 +19,15 @@ class ChartView @JvmOverloads constructor(
     private var mode: ChartViewMode = ChartViewMode.defaultMode
     private val pairPoints = mutableListOf<Pair<Point, Point?>>()
     private var extremum: ExtremumLevel = ExtremumLevel(ExtremumPoint(0f, 0f), ExtremumPoint(0f, 0f))
+
+    fun getBitmap(): Bitmap {
+        val capture: Bitmap = Bitmap.createBitmap(realCanvasWidth, realCanvasHeight, Bitmap.Config.ARGB_8888)
+        capture.setHasAlpha(true)
+        val bitmapCanvas = Canvas(capture)
+        layout(left, top, right, bottom)
+        draw(bitmapCanvas)
+        return capture
+    }
 
     override fun onViewInflated() {
         super.onViewInflated()

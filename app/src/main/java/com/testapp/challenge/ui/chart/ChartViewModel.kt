@@ -1,25 +1,35 @@
 package com.testapp.challenge.ui.chart
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.testapp.challenge.R
+import com.testapp.challenge.model.file.StoreFileManager
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.dto.Point
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
  * @author aliakseicherniakovich
  */
 class ChartViewModel @Inject constructor(
-    private val repository: Repository
+    private val repository: Repository,
+    private val storeFileManager: StoreFileManager
 ) : ViewModel() {
 
     private var id: Int = UNKNOWN_ARGS_ID
 
     private val _listCoordinatesFlow = MutableStateFlow<List<Point>?>(null)
     val listCoordinatesFlow = _listCoordinatesFlow.asStateFlow()
+    private val _saveFileResultEvent = Channel<Int>(Channel.BUFFERED)
+    val saveFileResultEvent = _saveFileResultEvent.receiveAsFlow()
 
     fun onViewLoaded(id: Int) {
         if (this.id != UNKNOWN_ARGS_ID) {
@@ -34,6 +44,19 @@ class ChartViewModel @Inject constructor(
         _listCoordinatesFlow.value = null
         _listCoordinatesFlow.value = points
         repository.clearDb()
+    }
+
+    fun saveBitmapIntoFile(bitmap: Bitmap) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val isSuccess = storeFileManager.saveBitmapIntoFile(bitmap)
+                val message =
+                    if (isSuccess) R.string.msg_success_save_file else R.string.msg_error_save_file
+                withContext(Dispatchers.Main) {
+                    _saveFileResultEvent.send(message)
+                }
+            }
+        }
     }
 
     companion object {

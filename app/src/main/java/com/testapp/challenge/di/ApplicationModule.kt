@@ -1,6 +1,7 @@
 package com.testapp.challenge.di
 
 import com.testapp.challenge.BuildConfig
+import com.testapp.challenge.model.file.StoreFileManager
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.service.PointService
 import com.testapp.challenge.model.network.service.exception.ResultCallAdapterFactory
@@ -15,6 +16,12 @@ import javax.inject.Singleton
  */
 @Module
 class ApplicationModule {
+
+    @Provides
+    @Singleton
+    fun provideStoreFileManager(): StoreFileManager {
+        return StoreFileManager()
+    }
 
     @Provides
     @Singleton

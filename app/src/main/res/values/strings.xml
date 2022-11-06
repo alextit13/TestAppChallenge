@@ -8,4 +8,7 @@
     <string name="lbl_close">Close</string>
     <string name="lbl_x">X</string>
     <string name="lbl_y">Y</string>
+    <string name="menu_save_image_into_file">Save image into file</string>
+    <string name="msg_success_save_file">Saved!</string>
+    <string name="msg_error_save_file">Error</string>
 </resources>
