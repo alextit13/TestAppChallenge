@@ -46,7 +46,6 @@ class ChartActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         observe()
-        listen()
         viewModel.onViewLoaded(intent.getIntExtra(ID_KEY, UNKNOWN_ARGS_ID))
     }
 
@@ -57,6 +56,9 @@ class ChartActivity : AppCompatActivity() {
         }.launchIn(lifecycleScope)
         viewModel.saveFileResultEvent.onEach {
             Snackbar.make(binding.root, it, LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
+        viewModel.chartModeFlow.onEach {
+            binding.chartView.setChartMode(it)
         }.launchIn(lifecycleScope)
     }
 
@@ -71,10 +73,6 @@ class ChartActivity : AppCompatActivity() {
         binding.chartView.setPointsData(list)
     }
 
-    private fun listen() {
-        // todo
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_options_chart, menu)
         return super.onCreateOptionsMenu(menu)
@@ -83,6 +81,7 @@ class ChartActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_save_image -> onClickSaveFile()
+            R.id.menu_change_mode -> changeChartMode()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -93,6 +92,10 @@ class ChartActivity : AppCompatActivity() {
         } else {
             launcherWriteExternalStorage.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
+    }
+
+    private fun changeChartMode() {
+        viewModel.setChartMode()
     }
 
     private fun saveImageIntoFile() {

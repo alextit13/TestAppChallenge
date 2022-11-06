@@ -5,4 +5,8 @@
         android:id="@+id/menu_save_image"
         android:icon="@drawable/ic_baseline_save_24"
         android:title="@string/menu_save_image_into_file" />
+    <item
+        android:id="@+id/menu_change_mode"
+        android:icon="@drawable/ic_baseline_timeline_24"
+        android:title="@string/menu_change_mode" />
 </menu>

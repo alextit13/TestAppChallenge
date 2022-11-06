@@ -19,6 +19,12 @@ class ChartView @JvmOverloads constructor(
     private var mode: ChartViewMode = ChartViewMode.defaultMode
     private val pairPoints = mutableListOf<Pair<Point, Point?>>()
     private var extremum: ExtremumLevel = ExtremumLevel(ExtremumPoint(0f, 0f), ExtremumPoint(0f, 0f))
+    private val renderManager: RenderManager = RenderManager()
+
+    fun setChartMode(mode: ChartViewMode) {
+        this.mode = mode
+        invalidate()
+    }
 
     fun getBitmap(): Bitmap {
         val capture: Bitmap = Bitmap.createBitmap(realCanvasWidth, realCanvasHeight, Bitmap.Config.ARGB_8888)
@@ -75,12 +81,22 @@ class ChartView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        pairPoints.forEach {
-            val start = it.first
-            val end = it.second ?: return
+        when (mode) {
+            ChartViewMode.Linear -> {
+                pairPoints.forEach {
+                    val start = it.first
+                    val end = it.second ?: return
 
-            canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
-            canvas?.drawPoint(start.x, start.y, pointPaint)
+                    canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
+                    canvas?.drawPoint(start.x, start.y, pointPaint)
+                }
+            }
+            ChartViewMode.Bezier -> {
+                val renderPaths = renderManager.renderBezier(pairPoints)
+                renderPaths.forEach {
+                    canvas?.drawPath(it, chartPaint)
+                }
+            }
         }
     }
 

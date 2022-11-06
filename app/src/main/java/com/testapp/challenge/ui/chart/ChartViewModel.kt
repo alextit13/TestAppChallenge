@@ -7,6 +7,7 @@ import com.testapp.challenge.R
 import com.testapp.challenge.model.file.StoreFileManager
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.dto.Point
+import com.testapp.challenge.view.chart.ChartViewMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +29,8 @@ class ChartViewModel @Inject constructor(
 
     private val _listCoordinatesFlow = MutableStateFlow<List<Point>?>(null)
     val listCoordinatesFlow = _listCoordinatesFlow.asStateFlow()
+    private val _chartModeFlow = MutableStateFlow(ChartViewMode.defaultMode)
+    val chartModeFlow = _chartModeFlow.asStateFlow()
     private val _saveFileResultEvent = Channel<Int>(Channel.BUFFERED)
     val saveFileResultEvent = _saveFileResultEvent.receiveAsFlow()
 
@@ -37,13 +40,6 @@ class ChartViewModel @Inject constructor(
         }
         this.id = id
         viewModelScope.launch { loadPoints() }
-    }
-
-    private suspend fun loadPoints() {
-        val points = repository.getDataFromLocalDb(id).sortedBy { it.x }
-        _listCoordinatesFlow.value = null
-        _listCoordinatesFlow.value = points
-        repository.clearDb()
     }
 
     fun saveBitmapIntoFile(bitmap: Bitmap) {
@@ -57,6 +53,21 @@ class ChartViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setChartMode() {
+        val newMode = when (_chartModeFlow.value) {
+            ChartViewMode.Linear -> ChartViewMode.Bezier
+            ChartViewMode.Bezier -> ChartViewMode.Linear
+        }
+        _chartModeFlow.value = newMode
+    }
+
+    private suspend fun loadPoints() {
+        val points = repository.getDataFromLocalDb(id).sortedBy { it.x }
+        _listCoordinatesFlow.value = null
+        _listCoordinatesFlow.value = points
+        repository.clearDb()
     }
 
     companion object {
