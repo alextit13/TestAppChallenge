@@ -76,12 +76,12 @@ class ChartView @JvmOverloads constructor(
 
     private companion object {
         val chartPaint: Paint = Paint().apply {
-            color = Color.RED
+            color = Color.GRAY
             strokeWidth = CHART_LINE_WIDTH
             style = Paint.Style.STROKE
         }
         val pointPaint: Paint = Paint().apply {
-            color = Color.GREEN
+            color = Color.DKGRAY
             strokeWidth = CHART_POINTS_WIDTH
             style = Paint.Style.FILL
         }
