@@ -1,50 +1,44 @@
 package com.testapp.challenge.view.axes
 
-import android.util.Log
+import com.testapp.challenge.model.network.dto.Point
 import com.testapp.challenge.view.SortedPointList
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * @author aliakseicherniakovich
  */
-internal fun SortedPointList.calculateStrokeGrid(realCanvasHeight: Int): List<Pair<String, Float>> {
-    Log.d("LOG_TAG", "calculateStrokeGrid. realCanvasHeight = $realCanvasHeight")
-    val gridStep = realCanvasHeight / COUNT_LINES_IN_GRID_HORIZONTAL
+internal fun SortedPointList.calculate(size: Int, direction: Direction): List<Pair<String, Float>> {
+    val gridStep = size / DEFAULT_COUNT_LINES_IN_GRID
     val result = mutableListOf<Pair<String, Float>>()
-    val diapason = this.points.minOf { it.y } .. this.points.maxOf { it.y }
-    val diapasonSet = mutableMapOf<Int, Int>()
-    for ((iterator, i) in (diapason.start.toInt() .. diapason.endInclusive.toInt()).withIndex()) {
-        diapasonSet[iterator] = i
-    }
+    val start = this.points.getMin(direction)
+    val end = this.points.getMax(direction)
 
-    val listDeltas = diapasonSet.values.chunked(diapasonSet.size / COUNT_LINES_IN_GRID_HORIZONTAL)
-    for (i in 0 until COUNT_LINES_IN_GRID_HORIZONTAL) {
-        val absolutePositionLabel = listDeltas[i].first()
-        val y = (i + 1) * gridStep
-        result.add(Pair("$absolutePositionLabel", y.toFloat()))
+    val gridLabelStep =
+        ((abs(start) + abs(end)).toDouble() / DEFAULT_COUNT_LINES_IN_GRID).roundToInt()
+    for (i in 0 until DEFAULT_COUNT_LINES_IN_GRID) {
+        val label = (start + (gridLabelStep * i)).toString()
+        val coordinate = i * gridStep.toFloat()
+        result.add(Pair(label, coordinate))
     }
 
     return result
 }
 
-internal fun SortedPointList.calculateColumnGrid(realCanvasWidth: Int): List<Pair<String, Float>> {
-    val gridStep = realCanvasWidth / COUNT_LINES_IN_GRID_VERTICAL
-    val result = mutableListOf<Pair<String, Float>>()
-    val diapason = this.points.minOf { it.x } .. this.points.maxOf { it.x }
-    val diapasonSet = mutableMapOf<Int, Int>()
-    for ((iterator, i) in (diapason.start.toInt() .. diapason.endInclusive.toInt()).withIndex()) {
-        diapasonSet[iterator] = i
-    }
+private fun List<Point>.getMin(direction: Direction): Int =
+    minOf { it.getExtreme(direction) }.toInt()
 
-    val listDeltas = diapasonSet.values.chunked(diapasonSet.size / COUNT_LINES_IN_GRID_VERTICAL)
-    for (i in 0 until COUNT_LINES_IN_GRID_VERTICAL) {
-        val absolutePositionLabel = listDeltas[i].first()
-        val x = (i) * gridStep
-        result.add(Pair("$absolutePositionLabel", x.toFloat()))
-    }
+private fun List<Point>.getMax(direction: Direction): Int =
+    maxOf { it.getExtreme(direction) }.toInt()
 
-    return result
+private fun Point.getExtreme(direction: Direction): Float = when (direction) {
+    Direction.Horizontal -> y
+    Direction.Vertical -> x
+}
+
+enum class Direction {
+    Horizontal,
+    Vertical
 }
 
 private const val DEFAULT_COUNT_LINES_IN_GRID = 9
-private const val COUNT_LINES_IN_GRID_HORIZONTAL = DEFAULT_COUNT_LINES_IN_GRID
-private const val COUNT_LINES_IN_GRID_VERTICAL = DEFAULT_COUNT_LINES_IN_GRID

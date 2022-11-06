@@ -32,14 +32,15 @@ open class AxesView @JvmOverloads constructor(
     }
 
     private fun calculateGrid() {
-        gridHorizontal = data.calculateStrokeGrid(realCanvasHeight)
-        gridVertical = data.calculateColumnGrid(realCanvasWidth)
+
+        gridHorizontal = data.calculate(realCanvasHeight, Direction.Horizontal)
+        gridVertical = data.calculate(realCanvasWidth, Direction.Vertical)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         // X axes
-        canvas?.drawLine(PADDING, realCanvasHeight - PADDING, realCanvasWidth - PADDING, realCanvasHeight - PADDING, axesPaint)
+        canvas?.drawLine(PADDING, realCanvasHeight - PADDING, realCanvasWidth.toFloat(), realCanvasHeight - PADDING, axesPaint)
         // Y axes
         canvas?.drawLine(PADDING, realCanvasHeight - PADDING, PADDING, PADDING, axesPaint)
         // grid vertical
@@ -52,17 +53,17 @@ open class AxesView @JvmOverloads constructor(
         gridHorizontal.forEach {
             canvas?.drawLine(PADDING, it.second - PADDING, realCanvasWidth.toFloat(), it.second - PADDING, gridPaint)
             // legend vertical
-            canvas?.drawText(it.first, START_POINT_X_LEGEND, it.second - PADDING, legendPaint)
+            canvas?.drawText(it.first, START_POINT_X_LEGEND, realCanvasHeight - it.second - PADDING, legendPaint)
         }
     }
 
     private companion object {
-        const val PADDING = 40f
+        const val PADDING = 50f
         const val STROKE_AXES_WIDTH = 2f
         const val STROKE_GRID_WIDTH = 1f
         const val LEGEND_TEXT_SIZE = 22f
         const val PHASE_GRID_LINES = 0f
-        const val START_POINT_X_LEGEND = 10f
+        const val START_POINT_X_LEGEND = 20f
         val INTERVALS_GRID_LINES = floatArrayOf(5f, 10f, 15f, 20f)
 
         val axesPaint: Paint = Paint().apply {
