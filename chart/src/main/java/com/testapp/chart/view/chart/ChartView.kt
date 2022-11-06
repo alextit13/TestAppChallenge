@@ -12,7 +12,7 @@ import com.testapp.chart.view.axes.AxesView
 /**
  * @author aliakseicherniakovich
  */
-class ChartView @JvmOverloads constructor(
+open class ChartView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AxesView(context, attrs) {
 
