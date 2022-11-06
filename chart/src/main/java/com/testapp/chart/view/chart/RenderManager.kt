@@ -1,7 +1,7 @@
-package com.testapp.challenge.view.chart
+package com.testapp.chart.view.chart
 
 import android.graphics.Path
-import com.testapp.challenge.model.network.dto.Point
+import com.testapp.chart.view.Point
 
 /**
  * @author aliakseicherniakovich

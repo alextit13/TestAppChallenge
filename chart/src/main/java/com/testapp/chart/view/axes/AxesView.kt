@@ -1,4 +1,4 @@
-package com.testapp.challenge.view.axes
+package com.testapp.chart.view.axes
 
 import android.content.Context
 import android.graphics.Canvas

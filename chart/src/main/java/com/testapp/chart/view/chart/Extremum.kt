@@ -1,6 +1,4 @@
-package com.testapp.challenge.view.chart
-
-import com.testapp.challenge.model.network.dto.Point
+package com.testapp.chart.view.chart
 
 /**
  * @author aliakseicherniakovich

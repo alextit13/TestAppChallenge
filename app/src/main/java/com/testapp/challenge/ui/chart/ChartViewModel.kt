@@ -7,7 +7,7 @@ import com.testapp.challenge.R
 import com.testapp.challenge.model.file.StoreFileManager
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.dto.Point
-import com.testapp.challenge.view.chart.ChartViewMode
+import com.testapp.chart.view.chart.ChartViewMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +29,8 @@ class ChartViewModel @Inject constructor(
 
     private val _listCoordinatesFlow = MutableStateFlow<List<Point>?>(null)
     val listCoordinatesFlow = _listCoordinatesFlow.asStateFlow()
+    private val _listChartCoordinateFlow = MutableStateFlow<List<Pair<Float, Float>>?>(null)
+    val listChartCoordinateFlow = _listChartCoordinateFlow.asStateFlow()
     private val _chartModeFlow = MutableStateFlow(ChartViewMode.defaultMode)
     val chartModeFlow = _chartModeFlow.asStateFlow()
     private val _saveFileResultEvent = Channel<Int>(Channel.BUFFERED)
@@ -67,6 +69,10 @@ class ChartViewModel @Inject constructor(
         val points = repository.getDataFromLocalDb(id).sortedBy { it.x }
         _listCoordinatesFlow.value = null
         _listCoordinatesFlow.value = points
+        _listChartCoordinateFlow.value = null
+        _listChartCoordinateFlow.value = points.map {
+            Pair(it.x, it.y)
+        }
         repository.clearDb()
     }
 

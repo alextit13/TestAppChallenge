@@ -52,6 +52,8 @@ class ChartActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.listCoordinatesFlow.filterNotNull().onEach {
             showCoordinates(it)
+        }.launchIn(lifecycleScope)
+        viewModel.listChartCoordinateFlow.filterNotNull().onEach {
             showChart(it)
         }.launchIn(lifecycleScope)
         viewModel.saveFileResultEvent.onEach {
@@ -69,7 +71,7 @@ class ChartActivity : AppCompatActivity() {
         (binding.listCoordinates.adapter as? PointGridAdapter)?.bindSubList(list)
     }
 
-    private fun showChart(list: List<Point>) {
+    private fun showChart(list: List<Pair<Float, Float>>) {
         binding.chartView.setPointsData(list)
     }
 

@@ -49,7 +49,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
-    <com.testapp.challenge.view.chart.ChartView
+    <com.testapp.chart.view.chart.ChartView
         android:id="@+id/chartView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_chart_view"

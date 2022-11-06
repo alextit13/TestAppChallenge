@@ -1,4 +1,4 @@
-package com.testapp.challenge.view.chart
+package com.testapp.chart.view.chart
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,8 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import com.testapp.challenge.model.network.dto.Point
-import com.testapp.challenge.view.axes.AxesView
+import com.testapp.chart.view.Point
+import com.testapp.chart.view.axes.AxesView
 
 /**
  * @author aliakseicherniakovich
