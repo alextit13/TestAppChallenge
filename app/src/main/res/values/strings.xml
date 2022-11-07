@@ -8,6 +8,10 @@
     <string name="lbl_x">X</string>
     <string name="lbl_y">Y</string>
     <string name="lbl_count_points">Enter count of points in field below</string>
+    <string name="lbl_left">Left</string>
+    <string name="lbl_right">Right</string>
+    <string name="lbl_plus">Plus</string>
+    <string name="lbl_minus">Minus</string>
 
     <!-- hint -->
     <string name="hint_point_count">Point count</string>

@@ -54,6 +54,7 @@ open class ChartView @JvmOverloads constructor(
     private fun prepareChart() {
         val points = toRelativeCoordinates(data.points)
 
+        pairPoints.clear()
         for (i in points.indices) {
             val start = points[i]
             val end = try {

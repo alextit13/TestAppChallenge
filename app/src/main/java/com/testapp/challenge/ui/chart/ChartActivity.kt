@@ -47,6 +47,22 @@ class ChartActivity : AppCompatActivity() {
 
         observe()
         viewModel.onViewLoaded(intent.getIntExtra(ID_KEY, UNKNOWN_ARGS_ID))
+        listen()
+    }
+
+    private fun listen() {
+        binding.buttonLeft?.setOnClickListener {
+            viewModel.onMoveLeft()
+        }
+        binding.buttonPlus?.setOnClickListener {
+            viewModel.onScaleIncrease()
+        }
+        binding.buttonMinus?.setOnClickListener {
+            viewModel.onScaleDecrease()
+        }
+        binding.buttonRight?.setOnClickListener {
+            viewModel.onMoveRight()
+        }
     }
 
     private fun observe() {

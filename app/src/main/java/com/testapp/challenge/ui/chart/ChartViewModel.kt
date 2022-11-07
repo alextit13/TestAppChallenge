@@ -22,7 +22,8 @@ import javax.inject.Inject
  */
 class ChartViewModel @Inject constructor(
     private val repository: Repository,
-    private val storeFileManager: StoreFileManager
+    private val storeFileManager: StoreFileManager,
+    private val scaller: Scaller
 ) : ViewModel() {
 
     private var id: Int = UNKNOWN_ARGS_ID
@@ -67,13 +68,37 @@ class ChartViewModel @Inject constructor(
 
     private suspend fun loadPoints() {
         val points = repository.getDataFromLocalDb(id).sortedBy { it.x }
+        drawPoints(points)
+        repository.clearDb()
+
+        scaller.observe(points) {
+            drawPoints(it)
+        }
+    }
+
+    private fun drawPoints(points: List<Point>) {
         _listCoordinatesFlow.value = null
         _listCoordinatesFlow.value = points
+
+        val pairsPoints = points.mapToPairs()
         _listChartCoordinateFlow.value = null
-        _listChartCoordinateFlow.value = points.map {
-            Pair(it.x, it.y)
-        }
-        repository.clearDb()
+        _listChartCoordinateFlow.value = pairsPoints
+    }
+
+    fun onMoveLeft() {
+        scaller.left()
+    }
+
+    fun onScaleIncrease() {
+        scaller.plus()
+    }
+
+    fun onScaleDecrease() {
+        scaller.minus()
+    }
+
+    fun onMoveRight() {
+        scaller.right()
     }
 
     companion object {
