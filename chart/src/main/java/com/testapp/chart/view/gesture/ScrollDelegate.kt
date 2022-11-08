@@ -15,8 +15,10 @@ internal class ScrollDelegate {
         e1: MotionEvent,
         e2: MotionEvent,
         distanceX: Float,
-        onAction: (ScrollDirection) -> Unit
+        onAction: (Direction.Scroll) -> Unit
     ) {
+        if (e1.pointerCount > 1 || e2.pointerCount > 1) return
+
         detectDownEvent(e1, e2)
 
         if (downEvent != null) {
@@ -26,9 +28,9 @@ internal class ScrollDelegate {
                 val startDragX = downEvent?.x ?: 0f
                 val endDragX = e2.x
                 if (startDragX < endDragX) {
-                    onAction.invoke(ScrollDirection.Left)
+                    onAction.invoke(Direction.Scroll.Left)
                 } else if (startDragX > endDragX) {
-                    onAction.invoke(ScrollDirection.Right)
+                    onAction.invoke(Direction.Scroll.Right)
                 }
             }
         }

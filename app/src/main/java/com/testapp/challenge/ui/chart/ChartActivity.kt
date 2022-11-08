@@ -51,19 +51,7 @@ class ChartActivity : AppCompatActivity() {
     }
 
     private fun listen() {
-        binding.buttonLeft?.setOnClickListener {
-            viewModel.onMoveLeft()
-        }
-        binding.buttonPlus?.setOnClickListener {
-            viewModel.onScaleIncrease()
-        }
-        binding.buttonMinus?.setOnClickListener {
-            viewModel.onScaleDecrease()
-        }
-        binding.buttonRight?.setOnClickListener {
-            viewModel.onMoveRight()
-        }
-        binding.chartView.scrollListener = {
+        binding.chartView.gestureViewListener = {
             viewModel.onScrollEvent(it)
         }
     }
