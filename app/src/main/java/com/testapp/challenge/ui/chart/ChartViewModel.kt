@@ -8,6 +8,7 @@ import com.testapp.challenge.model.file.StoreFileManager
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.dto.Point
 import com.testapp.chart.view.chart.ChartViewMode
+import com.testapp.chart.view.gesture.ScrollDirection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,6 +100,13 @@ class ChartViewModel @Inject constructor(
 
     fun onMoveRight() {
         scaller.right()
+    }
+
+    fun onScrollEvent(direction: ScrollDirection) {
+        when(direction) {
+            ScrollDirection.Right -> onMoveRight()
+            ScrollDirection.Left -> onMoveLeft()
+        }
     }
 
     companion object {

@@ -6,14 +6,14 @@ import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
-import com.testapp.chart.view.scale.GestureScaleView
+import com.testapp.chart.view.gesture.GestureView
 
 /**
  * @author aliakseicherniakovich
  */
 open class AxesView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : GestureScaleView(context, attrs) {
+) : GestureView(context, attrs) {
 
     private var gridV: List<Pair<String, Float>> = listOf()
     private var gridH: List<Pair<String, Float>> = listOf()

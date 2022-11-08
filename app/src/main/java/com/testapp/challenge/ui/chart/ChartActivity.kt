@@ -63,6 +63,9 @@ class ChartActivity : AppCompatActivity() {
         binding.buttonRight?.setOnClickListener {
             viewModel.onMoveRight()
         }
+        binding.chartView.scrollListener = {
+            viewModel.onScrollEvent(it)
+        }
     }
 
     private fun observe() {
