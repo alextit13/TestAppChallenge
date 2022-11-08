@@ -1,4 +1,4 @@
-package com.testapp.challenge.view.axes
+package com.testapp.chart.view.axes
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,13 +6,14 @@ import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
+import com.testapp.chart.view.gesture.GestureView
 
 /**
  * @author aliakseicherniakovich
  */
 open class AxesView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : InflatingCallbackView(context, attrs, defStyleAttr) {
+    context: Context, attrs: AttributeSet? = null
+) : GestureView(context, attrs) {
 
     private var gridV: List<Pair<String, Float>> = listOf()
     private var gridH: List<Pair<String, Float>> = listOf()

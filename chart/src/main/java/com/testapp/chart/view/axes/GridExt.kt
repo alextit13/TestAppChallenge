@@ -1,7 +1,7 @@
-package com.testapp.challenge.view.axes
+package com.testapp.chart.view.axes
 
-import com.testapp.challenge.model.network.dto.Point
-import com.testapp.challenge.view.SortedPointList
+import com.testapp.chart.view.Point
+import com.testapp.chart.view.SortedPointList
 import kotlin.math.roundToInt
 
 /**

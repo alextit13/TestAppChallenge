@@ -1,10 +1,10 @@
-package com.testapp.challenge.view.axes
+package com.testapp.chart.view.axes
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.testapp.challenge.model.network.dto.Point
-import com.testapp.challenge.view.SortedPointList
+import com.testapp.chart.view.Point
+import com.testapp.chart.view.SortedPointList
 
 /**
  * @author aliakseicherniakovich
@@ -21,8 +21,8 @@ abstract class InflatingCallbackView @JvmOverloads constructor(
 
     private var isViewInflating = false
 
-    open fun setPointsData(data: List<Point>) {
-        this.data = SortedPointList().apply { this.points = data }
+    open fun setPointsData(data: List<Pair<Float, Float>>) {
+        this.data = SortedPointList().apply { this.points = PointMapper.convert(data) }
         waitInflating()
     }
 

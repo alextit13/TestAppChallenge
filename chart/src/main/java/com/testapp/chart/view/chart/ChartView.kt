@@ -1,23 +1,39 @@
-package com.testapp.challenge.view.chart
+package com.testapp.chart.view.chart
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import com.testapp.challenge.model.network.dto.Point
-import com.testapp.challenge.view.axes.AxesView
+import com.testapp.chart.view.Point
+import com.testapp.chart.view.axes.AxesView
 
 /**
  * @author aliakseicherniakovich
  */
-class ChartView @JvmOverloads constructor(
+open class ChartView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AxesView(context, attrs) {
 
     private var mode: ChartViewMode = ChartViewMode.defaultMode
     private val pairPoints = mutableListOf<Pair<Point, Point?>>()
     private var extremum: ExtremumLevel = ExtremumLevel(ExtremumPoint(0f, 0f), ExtremumPoint(0f, 0f))
+    private val renderManager: RenderManager = RenderManager()
+
+    fun setChartMode(mode: ChartViewMode) {
+        this.mode = mode
+        invalidate()
+    }
+
+    fun getBitmap(): Bitmap {
+        val capture: Bitmap = Bitmap.createBitmap(realCanvasWidth, realCanvasHeight, Bitmap.Config.ARGB_8888)
+        capture.setHasAlpha(true)
+        val bitmapCanvas = Canvas(capture)
+        layout(left, top, right, bottom)
+        draw(bitmapCanvas)
+        return capture
+    }
 
     override fun onViewInflated() {
         super.onViewInflated()
@@ -38,6 +54,7 @@ class ChartView @JvmOverloads constructor(
     private fun prepareChart() {
         val points = toRelativeCoordinates(data.points)
 
+        pairPoints.clear()
         for (i in points.indices) {
             val start = points[i]
             val end = try {
@@ -65,12 +82,22 @@ class ChartView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        pairPoints.forEach {
-            val start = it.first
-            val end = it.second ?: return
+        when (mode) {
+            ChartViewMode.Linear -> {
+                pairPoints.forEach {
+                    val start = it.first
+                    val end = it.second ?: return
 
-            canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
-            canvas?.drawPoint(start.x, start.y, pointPaint)
+                    canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
+                    canvas?.drawPoint(start.x, start.y, pointPaint)
+                }
+            }
+            ChartViewMode.Bezier -> {
+                val renderPaths = renderManager.renderBezier(pairPoints)
+                renderPaths.forEach {
+                    canvas?.drawPath(it, chartPaint)
+                }
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.testapp.challenge.view.chart
+package com.testapp.chart.view.chart
 
 /**
  * @author aliakseicherniakovich
@@ -8,6 +8,6 @@ enum class ChartViewMode {
     Bezier;
 
     companion object {
-        val defaultMode = ChartViewMode.Linear
+        val defaultMode = Linear
     }
 }

@@ -1,9 +1,11 @@
 package com.testapp.challenge.di
 
 import com.testapp.challenge.BuildConfig
+import com.testapp.challenge.model.file.StoreFileManager
 import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.service.PointService
 import com.testapp.challenge.model.network.service.exception.ResultCallAdapterFactory
+import com.testapp.challenge.ui.chart.Scaller
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -15,6 +17,16 @@ import javax.inject.Singleton
  */
 @Module
 class ApplicationModule {
+
+    @Provides
+    @Singleton
+    fun provideScaller(): Scaller = Scaller()
+
+    @Provides
+    @Singleton
+    fun provideStoreFileManager(): StoreFileManager {
+        return StoreFileManager()
+    }
 
     @Provides
     @Singleton

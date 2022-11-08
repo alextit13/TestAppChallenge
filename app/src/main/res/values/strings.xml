@@ -1,11 +1,25 @@
 <resources>
     <string name="app_name">TestAppChallenge</string>
-    <string name="hint_point_count">Point count</string>
+
+    <!-- label -->
     <string name="lbl_run">Run</string>
-    <string name="lbl_count_points">Enter count of points in field below</string>
-    <string name="error_empty_enter_point_amount">Enter correct value</string>
     <string name="lbl_title_error">Error</string>
     <string name="lbl_close">Close</string>
     <string name="lbl_x">X</string>
     <string name="lbl_y">Y</string>
+    <string name="lbl_count_points">Enter count of points in field below</string>
+
+    <!-- hint -->
+    <string name="hint_point_count">Point count</string>
+
+    <!-- error -->
+    <string name="error_empty_enter_point_amount">Enter correct value</string>
+
+    <!-- menu -->
+    <string name="menu_save_image_into_file">Save image into file</string>
+    <string name="menu_change_mode">Change chart mode</string>
+
+    <!-- message -->
+    <string name="msg_success_save_file">Saved!</string>
+    <string name="msg_error_save_file">Error</string>
 </resources>
