@@ -22,4 +22,5 @@
     <!-- message -->
     <string name="msg_success_save_file">Saved!</string>
     <string name="msg_error_save_file">Error</string>
+    <string name="msg_feature_in_development">Feature in development!</string>
 </resources>

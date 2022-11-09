@@ -35,8 +35,8 @@ class ChartViewModel @Inject constructor(
     val listChartCoordinateFlow = _listChartCoordinateFlow.asStateFlow()
     private val _chartModeFlow = MutableStateFlow(ChartViewMode.defaultMode)
     val chartModeFlow = _chartModeFlow.asStateFlow()
-    private val _saveFileResultEvent = Channel<Int>(Channel.BUFFERED)
-    val saveFileResultEvent = _saveFileResultEvent.receiveAsFlow()
+    private val _infoMsgEvent = Channel<Int>(Channel.BUFFERED)
+    val infoMsgEvent = _infoMsgEvent.receiveAsFlow()
 
     fun onViewLoaded(id: Int) {
         if (this.id != UNKNOWN_ARGS_ID) {
@@ -53,7 +53,7 @@ class ChartViewModel @Inject constructor(
                 val message =
                     if (isSuccess) R.string.msg_success_save_file else R.string.msg_error_save_file
                 withContext(Dispatchers.Main) {
-                    _saveFileResultEvent.send(message)
+                    _infoMsgEvent.send(message)
                 }
             }
         }
@@ -61,7 +61,12 @@ class ChartViewModel @Inject constructor(
 
     fun setChartMode() {
         val newMode = when (_chartModeFlow.value) {
-            ChartViewMode.Linear -> ChartViewMode.Bezier
+            ChartViewMode.Linear -> {
+                viewModelScope.launch {
+                    _infoMsgEvent.send(R.string.msg_feature_in_development)
+                }
+                ChartViewMode.Linear
+            }
             ChartViewMode.Bezier -> ChartViewMode.Linear
         }
         _chartModeFlow.value = newMode

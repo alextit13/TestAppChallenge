@@ -63,7 +63,7 @@ class ChartActivity : AppCompatActivity() {
         viewModel.listChartCoordinateFlow.filterNotNull().onEach {
             showChart(it)
         }.launchIn(lifecycleScope)
-        viewModel.saveFileResultEvent.onEach {
+        viewModel.infoMsgEvent.onEach {
             Snackbar.make(binding.root, it, LENGTH_SHORT).show()
         }.launchIn(lifecycleScope)
         viewModel.chartModeFlow.onEach {
