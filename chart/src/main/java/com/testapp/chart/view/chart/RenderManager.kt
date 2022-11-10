@@ -1,36 +1,46 @@
 package com.testapp.chart.view.chart
 
-import android.graphics.Path
 import com.testapp.chart.view.Point
+import org.apache.commons.math3.analysis.interpolation.SplineInterpolator
 
 /**
  * @author aliakseicherniakovich
  */
 class RenderManager {
 
-    fun renderBezier(pairPoints: MutableList<Pair<Point, Point?>>): List<Path> {
-        val result = mutableListOf<Path>()
-        pairPoints.forEach {
-            val start = it.first
-            val end = it.second ?: start
+    private val splineInterpolator: SplineInterpolator by lazy { SplineInterpolator() }
 
-            val x1 = start.x
-            val y1 = start.y
-
-            val x3 = end.x
-            val y3 = end.y
-
-            // todo calculate this
-            val x2 = x3 + 10
-            val y2 = y3 + 10
-
-            val path = Path().apply {
-                moveTo(x1, y1)
-                cubicTo(x1, y1, x2, y2, x3, y3)
-            }
-
-            result.add(path)
+    fun renderBezier(resolution: Float = DEFAULT_CHART_RESOLUTION, points: MutableList<Point>): List<Point> {
+        val result = mutableListOf<Point>()
+        val xArray = DoubleArray(points.size)
+        val yArray = DoubleArray(points.size)
+        points.forEachIndexed { index, pointF ->
+            var x = pointF.x.toDouble()
+            var y = pointF.y.toDouble()
+            if (xArray.isContain(x)) x += DEFAULT_DELTA_PRECESSION
+            if (yArray.isContain(y)) y += DEFAULT_DELTA_PRECESSION
+            xArray[index] = x
+            yArray[index] = y
         }
+        val interpolate = splineInterpolator.interpolate(xArray, yArray)
+
+        var i = points.minOf { it.x }
+        val end = points.maxOf { it.x }
+
+        while (i < end) {
+            val x = i
+            val y = interpolate.value(i.toDouble())
+            result.add(Point(x, y.toFloat()))
+            i += resolution
+        }
+
         return result
+    }
+
+    private fun DoubleArray.isContain(number: Double): Boolean = find { it == number } != null
+
+    private companion object {
+        const val DEFAULT_CHART_RESOLUTION = 1f
+        const val DEFAULT_DELTA_PRECESSION = 0.001f
     }
 }

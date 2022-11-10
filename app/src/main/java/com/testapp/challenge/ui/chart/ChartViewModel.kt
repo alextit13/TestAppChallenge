@@ -61,12 +61,7 @@ class ChartViewModel @Inject constructor(
 
     fun setChartMode() {
         val newMode = when (_chartModeFlow.value) {
-            ChartViewMode.Linear -> {
-                viewModelScope.launch {
-                    _infoMsgEvent.send(R.string.msg_feature_in_development)
-                }
-                ChartViewMode.Linear
-            }
+            ChartViewMode.Linear -> ChartViewMode.Bezier
             ChartViewMode.Bezier -> ChartViewMode.Linear
         }
         _chartModeFlow.value = newMode

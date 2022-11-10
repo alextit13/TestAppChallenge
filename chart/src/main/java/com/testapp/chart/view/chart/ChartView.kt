@@ -17,9 +17,10 @@ open class ChartView @JvmOverloads constructor(
 ) : AxesView(context, attrs) {
 
     private var mode: ChartViewMode = ChartViewMode.defaultMode
+    private val relativeCoordinates: MutableList<Point> = mutableListOf()
     private val pairPoints = mutableListOf<Pair<Point, Point?>>()
     private var extremum: ExtremumLevel = ExtremumLevel(ExtremumPoint(0f, 0f), ExtremumPoint(0f, 0f))
-    private val renderManager: RenderManager = RenderManager()
+    private val renderManager: RenderManager by lazy { RenderManager() }
 
     fun setChartMode(mode: ChartViewMode) {
         this.mode = mode
@@ -53,7 +54,13 @@ open class ChartView @JvmOverloads constructor(
 
     private fun prepareChart() {
         val points = toRelativeCoordinates(data.points)
+        relativeCoordinates.clear()
+        relativeCoordinates.addAll(points)
 
+        divideToPairs(points)
+    }
+
+    private fun divideToPairs(points: List<Point>) {
         pairPoints.clear()
         for (i in points.indices) {
             val start = points[i]
@@ -93,9 +100,17 @@ open class ChartView @JvmOverloads constructor(
                 }
             }
             ChartViewMode.Bezier -> {
-                val renderPaths = renderManager.renderBezier(pairPoints)
+                val renderPaths = if (relativeCoordinates.size <= 1)
+                    relativeCoordinates
+                else if (relativeCoordinates.size == 2) {
+                    val start = relativeCoordinates[0]
+                    val end = relativeCoordinates[1]
+                    canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
+                    return
+                } else
+                    renderManager.renderBezier(points = relativeCoordinates)
                 renderPaths.forEach {
-                    canvas?.drawPath(it, chartPaint)
+                    canvas?.drawPoint(it.x, it.y, chartPaint)
                 }
             }
         }
