@@ -96,29 +96,27 @@ open class ChartView @JvmOverloads constructor(
                     val end = it.second ?: return
 
                     canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
-                    canvas?.drawPoint(start.x, start.y, pointPaint)
                 }
             }
             ChartViewMode.Bezier -> {
-                val renderPaths = if (relativeCoordinates.size <= 1)
-                    relativeCoordinates
-                else if (relativeCoordinates.size == 2) {
-                    val start = relativeCoordinates[0]
-                    val end = relativeCoordinates[1]
-                    canvas?.drawLine(start.x, start.y, end.x, end.y, chartPaint)
-                    return
-                } else
-                    renderManager.renderBezier(points = relativeCoordinates)
-                renderPaths.forEach {
-                    canvas?.drawPoint(it.x, it.y, chartPaint)
-                }
+                val renderPaths = renderManager.renderBezier(
+                    relativeCoordinates,
+                    realCanvasWidth,
+                    PADDING
+                )
+                canvas?.drawPath(renderPaths, chartPaint)
             }
+        }
+
+        pairPoints.forEach {
+            val start = it.first
+            canvas?.drawPoint(start.x, start.y, pointPaint)
         }
     }
 
     private companion object {
         val chartPaint: Paint = Paint().apply {
-            color = Color.GRAY
+            color = Color.RED
             strokeWidth = CHART_LINE_WIDTH
             style = Paint.Style.STROKE
         }
