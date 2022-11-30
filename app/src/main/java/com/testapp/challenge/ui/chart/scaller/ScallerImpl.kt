@@ -1,17 +1,19 @@
-package com.testapp.challenge.ui.chart
+package com.testapp.challenge.ui.chart.scaller
 
 import com.testapp.challenge.model.network.dto.Point
+import com.testapp.challenge.ui.chart.mapToPairs
+import com.testapp.challenge.ui.chart.mapToPoints
 
 /**
  * @author aliakseicherniakovich
  */
-class Scaller {
+class ScallerImpl: Scaller {
 
     private lateinit var observer: (List<Point>) -> Unit
     private var points: MutableList<Pair<Float, Float>> = mutableListOf()
     private lateinit var caret: Caret
 
-    fun observe(data: List<Point>, block: (List<Point>) -> Unit) {
+    override fun observe(data: List<Point>, block: (List<Point>) -> Unit) {
         this.observer = block
         points = data.mapToPairs().toMutableList()
         caret = Caret(points.size) {
@@ -22,19 +24,19 @@ class Scaller {
         }
     }
 
-    fun plus() {
+    override fun plus() {
         caret.plus()
     }
 
-    fun minus() {
+    override fun minus() {
         caret.minus()
     }
 
-    fun left() {
+    override fun left() {
         caret.left()
     }
 
-    fun right() {
+    override fun right() {
         caret.right()
     }
 

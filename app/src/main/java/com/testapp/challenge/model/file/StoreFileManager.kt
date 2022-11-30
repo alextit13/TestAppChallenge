@@ -10,8 +10,8 @@ import java.util.*
 /**
  * @author aliakseicherniakovich
  */
-class StoreFileManager {
-    fun saveBitmapIntoFile(bitmap: Bitmap): Boolean {
+class StoreFileManager: FileManager {
+    override fun saveBitmapIntoFile(bitmap: Bitmap): Boolean {
         var isSavedSuccess = false
         try {
             val path =  "${App.appInstance.getExternalFilesDir(Environment.DIRECTORY_DCIM)}/${Date().time}"

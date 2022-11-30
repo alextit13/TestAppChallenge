@@ -1,11 +1,14 @@
 package com.testapp.challenge.di
 
 import com.testapp.challenge.BuildConfig
+import com.testapp.challenge.model.file.FileManager
 import com.testapp.challenge.model.file.StoreFileManager
-import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.service.PointService
 import com.testapp.challenge.model.network.service.exception.ResultCallAdapterFactory
-import com.testapp.challenge.ui.chart.Scaller
+import com.testapp.challenge.model.repository.Repository
+import com.testapp.challenge.model.repository.RepositoryImpl
+import com.testapp.challenge.ui.chart.scaller.Scaller
+import com.testapp.challenge.ui.chart.scaller.ScallerImpl
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -20,33 +23,26 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideScaller(): Scaller = Scaller()
+    fun provideScaller(): Scaller = ScallerImpl()
 
     @Provides
     @Singleton
-    fun provideStoreFileManager(): StoreFileManager {
-        return StoreFileManager()
-    }
+    fun provideStoreFileManager(): FileManager = StoreFileManager()
 
     @Provides
     @Singleton
-    fun providesRepository(pointService: PointService): Repository {
-        return Repository(pointService)
-    }
+    fun providesRepository(pointService: PointService): Repository = RepositoryImpl(pointService)
 
     @Provides
     @Singleton
-    fun providesPointService(retrofit: Retrofit): PointService {
-        return retrofit.create(PointService::class.java)
-    }
+    fun providesPointService(retrofit: Retrofit): PointService =
+        retrofit.create(PointService::class.java)
 
     @Provides
     @Singleton
-    fun providesRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(ResultCallAdapterFactory())
-            .build()
-    }
+    fun providesRetrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(ResultCallAdapterFactory())
+        .build()
 }

@@ -2,8 +2,8 @@ package com.testapp.challenge.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.testapp.challenge.model.network.Repository
 import com.testapp.challenge.model.network.response.PointCallResponse
+import com.testapp.challenge.model.repository.Repository
 import com.testapp.challenge.ui.ext.isInt
 import com.testapp.challenge.util.InputFieldError
 import kotlinx.coroutines.channels.Channel

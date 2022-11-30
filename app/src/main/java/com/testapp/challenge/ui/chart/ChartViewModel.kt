@@ -4,9 +4,10 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.testapp.challenge.R
-import com.testapp.challenge.model.file.StoreFileManager
-import com.testapp.challenge.model.network.Repository
+import com.testapp.challenge.model.file.FileManager
 import com.testapp.challenge.model.network.dto.Point
+import com.testapp.challenge.model.repository.Repository
+import com.testapp.challenge.ui.chart.scaller.Scaller
 import com.testapp.chart.view.chart.ChartViewMode
 import com.testapp.chart.view.gesture.Direction
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ import javax.inject.Inject
  */
 class ChartViewModel @Inject constructor(
     private val repository: Repository,
-    private val storeFileManager: StoreFileManager,
+    private val storeFileManager: FileManager,
     private val scaller: Scaller
 ) : ViewModel() {
 
